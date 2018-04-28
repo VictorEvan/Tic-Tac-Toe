@@ -1,0 +1,39 @@
+/* ================================= 
+		ReactCSSTransitionGroup Classes
+==================================== */
+
+/* start enter state */
+
+.fade-enter {
+	opacity: 0;
+}
+
+/* end enter state */
+
+.fade-enter.fade-enter-active {
+	opacity: 1;
+	transition: opacity .5s ease-in;
+}
+
+/* start leave state */
+
+.fade-leave {
+  opacity: 1;
+}
+
+/* end leave state */
+
+.fade-leave.fade-leave-active {
+	opacity: 0;
+	transition: opacity .5s ease-in;
+}
+
+/* initial mounting */
+.fade-appear {
+	opacity: 0;
+}
+
+.fade-appear.fade-appear-active {
+	opacity: 1;
+	transition: opacity .5s ease-in;
+}

@@ -1,0 +1,23 @@
+.container--outer {
+  background: red;
+  border-radius: 10px;
+}
+
+.game--type {
+  background: purple;
+}
+
+.game--XorO {
+  background: lightblue;
+}
+
+.game--board {
+  background: yellow;
+}
+
+.container--boxes {
+  background: gray;
+  .box {
+    background: orange;
+  }
+}

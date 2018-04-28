@@ -1,0 +1,29 @@
+// ==========================================================================
+// Base Styles
+// ==========================================================================
+
+* {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+button {
+	border: none;
+	outline: none;
+	padding: 1rem;
+	background: none;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+ul {
+	margin: 0;
+	list-style-type: none;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	-webkit-padding-start: 0;
+}
