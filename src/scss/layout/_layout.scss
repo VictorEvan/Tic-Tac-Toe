@@ -24,11 +24,41 @@
   }
 }
 
+.bar {
+  &__player-one,
+  &__player-two,
+  &__reset-button {
+    position: absolute;
+    top: 3%;
+  }
+  &__player-one {
+    left: 20%;
+  }
+  &__player-two {
+    left: 40%;
+  }
+  &__reset-button {
+    right: 10%;
+  }
+}
+
+.container--inner {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+}
+
 .game {
   &--type {
     @extend %full;
     @extend %game-default;
     flex-direction: column;
+    .container--buttons
+    button {
+      font-size: 1.25rem;
+    }
   }
   &--XorO {
     @extend %full;
@@ -57,7 +87,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  grid-gap: 1px;
+  grid-gap: 2px;
   .box {
     display: flex;
     justify-content: center;

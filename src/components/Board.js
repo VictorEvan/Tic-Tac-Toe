@@ -29,6 +29,9 @@ const Board = props => {
 
 Board.propTypes = {
   pieces: PropTypes.array.isRequired,
+  winningCombos: PropTypes.array.isRequired,
+  playerXChoices: PropTypes.array.isRequired,
+  playerOChoices: PropTypes.array.isRequired,
   playerMode: PropTypes.isRequired,
   playerPiece: PropTypes.isRequired,
   pieceTurn: PropTypes.number,
