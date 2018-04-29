@@ -24,6 +24,24 @@
   }
 }
 
+.player-one-turn,
+.player-two-turn {
+  position: absolute;
+  top: -10%;
+  z-index: -10;
+  p {
+    margin: .50em .50em;
+  }
+}
+
+.player-one-turn {
+  left: 15%;
+}
+
+.player-two-turn {
+  right: 15%;
+}
+
 .bar {
   &__player-one,
   &__player-two,
@@ -78,6 +96,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  &--message {
+    background: rgba(0,0,0,0.5);
+    @extend %full;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      font-size: 1.5rem;
+    }
   }
 }
 

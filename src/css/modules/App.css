@@ -7,8 +7,8 @@ Error: Undefined variable: "$color-primary".
 3:   border-radius: 10px;
 4: }
 5: 
-6: .container--inner {
-7:   background: green;
+6: .player-one-turn {
+7:   background: $player-one-color;
 
 Backtrace:
 scss/modules/App.scss:2
@@ -65,4 +65,4 @@ scss/modules/App.scss:2
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-primary\".\A         on line 2 of scss/modules/App.scss\A \A 1: .container--outer {\A 2:   background: $color-primary;\A 3:   border-radius: 10px;\A 4: }\A 5: \A 6: .container--inner {\A 7:   background: green;"; }
+  content: "Error: Undefined variable: \"$color-primary\".\A         on line 2 of scss/modules/App.scss\A \A 1: .container--outer {\A 2:   background: $color-primary;\A 3:   border-radius: 10px;\A 4: }\A 5: \A 6: .player-one-turn {\A 7:   background: $player-one-color;"; }

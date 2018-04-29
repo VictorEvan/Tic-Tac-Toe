@@ -3,9 +3,10 @@
 // ================
 
 const SET_PLAYER_MODE = 'SET_PLAYER_MODE';
-const SET_PLAYER_PIECE = 'SET_PLAYER_PIECE';
+const SET_PLAYER_ONE_PIECE = 'SET_PLAYER_ONE_PIECE';
 const PLACE_PIECE = 'PLACE_PIECE';
-const UPDATE_PLAYER_SCORE = 'UPDATE_PLAYER_SCORE';
+const PROCESS_NEXT_TURN = 'PROCESS_NEXT_TURN';
+const SET_RESULT = 'SET_RESULT';
 const NEXT_MATCH = 'NEXT_MATCH';
 const RESET = 'RESET';
 
@@ -13,9 +14,10 @@ const RESET = 'RESET';
 
 const GameActionTypes = {
   SET_PLAYER_MODE,
-  SET_PLAYER_PIECE,
+  SET_PLAYER_ONE_PIECE,
   PLACE_PIECE,
-  UPDATE_PLAYER_SCORE,
+  PROCESS_NEXT_TURN,
+  SET_RESULT,
   NEXT_MATCH,
   RESET
 }
@@ -31,9 +33,9 @@ const setPlayerMode = mode => {
   }
 }
 
-const setPlayerPiece = choice => {
+const setPlayerOnePiece = choice => {
   return {
-    type: GameActionTypes.SET_PLAYER_PIECE,
+    type: GameActionTypes.SET_PLAYER_ONE_PIECE,
     choice
   }
 }
@@ -46,9 +48,16 @@ const placePiece = (index, piece) => {
   }
 }
 
-const updatePlayerScore = piece => {
+const processNextTurn = () => {
   return {
-    type: GameActionTypes.UPDATE_PLAYER_SCORE
+    type: GameActionTypes.PROCESS_NEXT_TURN
+  }
+}
+
+const setResult = winner => {
+  return {
+    type: GameActionTypes.SET_RESULT,
+    winner
   }
 }
 
@@ -68,9 +77,10 @@ const reset = () => {
 
 const GameActionCreators = {
   setPlayerMode,
-  setPlayerPiece,
+  setPlayerOnePiece,
   placePiece,
-  updatePlayerScore,
+  processNextTurn,
+  setResult,
   nextMatch,
   reset,
 }
@@ -81,69 +91,67 @@ const GameActionCreators = {
 
 // Utility Functions
 
-const randomTurn = () => Math.round(Math.random());
-
-const hasAPlayerWon = () => {
-
+const randomTurn = () => {
+  let num = Math.round(Math.random());
+  if (num === 0) {
+    return "X"
+  } else {
+    return "O"
+  }
 };
+
+const winningCombos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+const playerHasWon = (winningCombos, playerArr) => {
+  for (let i = 0; i < winningCombos.length; i++) {
+    let result = 
+      winningCombos[i].reduce((bool,winningIndex) => 
+        !playerArr.includes(winningIndex) ? false : bool, true);
+    console.log(result);
+    if (result) {
+      return true;
+    }
+  }
+  return false;
+}
 
 const initialState = {
   playerMode: null,
-  playerPiece: null,
+  playerOnePiece: null,
+  playerTwoPiece: null,
+  playerTwoisComputer: null,
   pieceTurn: null,
+  playerTurn: null,
   boardChoices: [null,null,null,null,null,null,null,null,null],
   playerXChoices: [],
   playerOChoices: [],
-  playerXScore: 0,
-  playerOScore: 0,
-  players: [
-    {
-      piece: "X",
-      isPlayerOne: false,
-      playerXChoices: [],
-      playerXScore: 0,
-      hasWon: false,
-    },
-    {
-      piece: "O",
-      isPlayerOne: false,
-      playerOChoices: [],
-      playerOScore: 0,
-      hasWon: false
-    }
-  ]
+  P1Score: 0,
+  P2Score: 0,
+  currentTurn: 1,
+  result: null,
 };
 
 function GameReducer(state=initialState, action) {
   switch(action.type) {
     case GameActionTypes.SET_PLAYER_MODE:
       return {
+        ...state,
         playerMode: action.mode,
-        playerPiece: state.playerPiece,
-        pieceTurn: state.pieceTurn,
-        boardChoices: state.boardChoices,
-        playerXChoices: state.playerXChoices,
-        playerOChoices: state.playerOChoices,
-        playerXScore: state.playerXScore,
-        playerOScore: state.playerOScore
+        playerTwoisComputer: action.mode === 'one' ? true : false
       };
-    case GameActionTypes.SET_PLAYER_PIECE:
+    case GameActionTypes.SET_PLAYER_ONE_PIECE:
+      let randomTurnResult = randomTurn();
       return {
-        playerMode: state.playerMode,
-        playerPiece: action.choice,
-        pieceTurn: randomTurn(),
-        boardChoices: state.boardChoices,
-        playerXChoices: state.playerXChoices,
-        playerOChoices: state.playerOChoices,
-        playerXScore: state.playerXScore,
-        playerOScore: state.playerOScore
+        ...state,
+        playerOnePiece: action.choice[0],
+        playerTwoPiece: action.choice[1],
+        pieceTurn: randomTurnResult,
+        playerTurn: randomTurnResult === action.choice[0] ? "P1" : "P2"
       };
     case GameActionTypes.PLACE_PIECE:
-      if (state.boardChoices[action.index] === null) {
+      if (state.boardChoices[action.index] === null && state.result === null) {
         return {
-          playerMode: state.playerMode,
-          playerPiece: state.playerPiece,
-          pieceTurn: state.pieceTurn === 0 ? 1 : 0,
+          ...state,
           boardChoices: [
             ...state.boardChoices.slice(0,action.index),
             action.piece,
@@ -151,22 +159,28 @@ function GameReducer(state=initialState, action) {
           ],
           playerXChoices: action.piece === "X" ? [...state.playerXChoices, action.index] : state.playerXChoices,
           playerOChoices: action.piece === "O" ? [...state.playerOChoices, action.index] : state.playerOChoices,
-          playerXScore: state.playerXScore,
-          playerOScore: state.playerOScore
+          pieceTurn: state.pieceTurn === "X" ? "O" : "X",
+          playerTurn: state.playerTurn === "P1" ? "P2" : "P1",
+          currentTurn: state.currentTurn + 1
         };
       } else {
         return state;
       }
-    case GameActionTypes.UPDATE_PLAYER_SCORE:
-      return {
-        playerMode: state.playerMode,
-        playerPiece: state.playerPiece,
-        pieceTurn: action.piece === "X" ? 0 : 1,
-        boardChoices: initialState.boardChoices,
-        playerXChoices: initialState.playerXChoices,
-        playerOChoices: initialState.playerOChoices,
-        playerXScore: action.piece === "X" ? state.playerXScore + 1 : state.playerXScore,
-        playerOScore: action.piece === "O" ? state.playerOScore + 1 : state.playerOScore
+    case GameActionTypes.PROCESS_NEXT_TURN:
+      if (state.currentTurn > 5) {
+      }
+    case GameActionTypes.SET_RESULT:
+      if (action.winner) {
+        return {
+          ...state,
+          result: action.winner,
+          [`${action.winner}Score`]: state[`${action.winner}Score`] + 1,
+        }
+      } else {
+        return {
+          ...state,
+          result: "draw",
+        }
       }
     case GameActionTypes.NEXT_MATCH:
       return {

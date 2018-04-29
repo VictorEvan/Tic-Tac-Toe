@@ -3,8 +3,19 @@
   border-radius: 10px;
 }
 
+.player-one-turn {
+  background: $player-one-color;
+  color: white;
+}
+
+.player-two-turn {
+  background: $player-two-color;
+  color: white;
+}
+
 .container--inner {
   background: green;
+  color: white;
 }
 
 .container--boxes {

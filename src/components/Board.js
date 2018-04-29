@@ -1,24 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransitionGroup } from 'react-transition-group';
 
-import BoardMessage from './Message';
+import Message from './Message';
 import Box from './Box';
 
-const Board = props => {
-  if (props.playerPiece === null) {
-    return null;
-  } else {
+class Board extends Component {
+
+  componentDidUpdate = () => {
+    console.log('componentDidUpdate');
+    if (this.props.result === null && this.props.currentTurn > 5) {
+      let previousTurn = this.props.pieceTurn === "X" ? "O" : "X";
+      let previousPlayer = this.props.playerTurn === "P1" ? "P2" : "P1";
+      if (this.playerHasWon(this.props.winningCombos, this.props[`player${previousTurn}Choices`])) {
+        this.props.setResult(previousPlayer);
+      } else if (this.props.currentTurn === 10) {
+        this.props.setResult();
+      }
+    }
+  }
+
+  playerHasWon = (winningCombos,playerArr) => {
+    for (let i = 0; i < winningCombos.length; i++) {
+      let result = 
+        winningCombos[i].reduce((bool,winningIndex) => 
+          !playerArr.includes(winningIndex) ? false : bool, true);
+      console.log(result);
+      if (result) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  render() {
     return (
       <div className="game--board">
-        {/* <BoardMessage /> */}
+        <CSSTransitionGroup
+          transitionName="fade"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+        >
+          {
+            this.props.result ?
+            <Message 
+              result={this.props.result}
+            /> : null
+          }
+        </CSSTransitionGroup>
         <ul className="container--boxes">
-          {props.boardChoices.map((box, i) => (
+          {this.props.boardChoices.map((box, i) => (
             <Box
               key={i}
-              boardChoices={props.boardChoices}
-              piece={props.pieces[props.pieceTurn]}
+              boardChoices={this.props.boardChoices}
+              piece={this.props.pieceTurn}
               index={i}
-              placePiece={props.placePiece}
+              placePiece={this.props.placePiece}
             />
           ))}
         </ul>
@@ -27,16 +66,23 @@ const Board = props => {
   }
 }
 
+Board.defaultProps = {
+  winningCombos: [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+}
+
 Board.propTypes = {
-  pieces: PropTypes.array.isRequired,
-  winningCombos: PropTypes.array.isRequired,
   playerXChoices: PropTypes.array.isRequired,
   playerOChoices: PropTypes.array.isRequired,
-  playerMode: PropTypes.isRequired,
-  playerPiece: PropTypes.isRequired,
-  pieceTurn: PropTypes.number,
+  playerOnePiece: PropTypes.string.isRequired,
+  playerTwoPiece: PropTypes.string.isRequired,
+  pieceTurn: PropTypes.string.isRequired,
+  playerTurn: PropTypes.string.isRequired,
+  boardChoices: PropTypes.array.isRequired,
+  currentTurn: PropTypes.number.isRequired,
+  result: PropTypes.string,
+  // actions
   placePiece: PropTypes.func.isRequired,
-  boardChoices: PropTypes.array.isRequired
+  setResult: PropTypes.func.isRequired
 }
 
 export default Board;

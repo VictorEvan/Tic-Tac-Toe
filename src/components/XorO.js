@@ -13,10 +13,10 @@ const XorO = props => {
         </p>
         <div className="container--buttons">
           <button
-            onClick={() => props.choosePiece("X")}
+            onClick={() => props.choosePiece(["X","O"])}
           >X</button>
           <button
-            onClick={() => props.choosePiece("O")}
+            onClick={() => props.choosePiece(["O","X"])}
           >O</button>
         </div>
         <button 
@@ -31,7 +31,7 @@ const XorO = props => {
 }
 
 XorO.propTypes = {
-  playerMode: PropTypes.isRequired,
+  playerMode: PropTypes.string.isRequired,
   choosePiece: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired
 }

@@ -22,7 +22,7 @@ const GameType = props => {
 }
 
 GameType.propTypes = {
-  playerMode: PropTypes.isRequired,
+  playerMode: PropTypes.object,
   chooseMode: PropTypes.func.isRequired
 }
 
