@@ -1,9 +1,6 @@
 #root {
   width: 100vw;
   height: 100vh;
-}
-
-#root {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +8,7 @@
 
 .container--outer {
   position: relative;
+  max-width: 340px;
   @media screen and (orientation: portrait) {
     width: 90%;
   }
@@ -50,7 +48,7 @@
     top: 3%;
   }
   &__player-one {
-    left: 20%;
+    left: 10%;
   }
   &__player-two {
     left: 40%;
@@ -98,7 +96,6 @@
     align-items: center;
   }
   &--message {
-    background: rgba(0,0,0,0.5);
     @extend %full;
     display: flex;
     justify-content: center;

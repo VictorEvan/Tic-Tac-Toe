@@ -8,29 +8,14 @@ import Box from './Box';
 class Board extends Component {
 
   componentDidUpdate = () => {
-    console.log('componentDidUpdate');
-    if (this.props.result === null && this.props.currentTurn > 5) {
-      let previousTurn = this.props.pieceTurn === "X" ? "O" : "X";
-      let previousPlayer = this.props.playerTurn === "P1" ? "P2" : "P1";
-      if (this.playerHasWon(this.props.winningCombos, this.props[`player${previousTurn}Choices`])) {
-        this.props.setResult(previousPlayer);
-      } else if (this.props.currentTurn === 10) {
-        this.props.setResult();
-      }
+    if (this.props.result === null && this.props.isProcessing === true) {
+      console.log('process next turn');
+      this.props.processNextTurn();
     }
-  }
-
-  playerHasWon = (winningCombos,playerArr) => {
-    for (let i = 0; i < winningCombos.length; i++) {
-      let result = 
-        winningCombos[i].reduce((bool,winningIndex) => 
-          !playerArr.includes(winningIndex) ? false : bool, true);
-      console.log(result);
-      if (result) {
-        return true;
-      }
+    if (this.props.result) {
+      console.log('start next match in 3 seconds');
+      setTimeout(() => this.props.startNextMatch(),3000);
     }
-    return false;
   }
 
   render() {
@@ -66,23 +51,25 @@ class Board extends Component {
   }
 }
 
-Board.defaultProps = {
-  winningCombos: [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-}
-
 Board.propTypes = {
-  playerXChoices: PropTypes.array.isRequired,
-  playerOChoices: PropTypes.array.isRequired,
   playerOnePiece: PropTypes.string.isRequired,
   playerTwoPiece: PropTypes.string.isRequired,
-  pieceTurn: PropTypes.string.isRequired,
-  playerTurn: PropTypes.string.isRequired,
   boardChoices: PropTypes.array.isRequired,
   currentTurn: PropTypes.number.isRequired,
   result: PropTypes.string,
+  isProcessing: PropTypes.bool.isRequired,
+  pieceTurn: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string
+  ]),
+  playerTurn: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string
+  ]),
   // actions
   placePiece: PropTypes.func.isRequired,
-  setResult: PropTypes.func.isRequired
+  processNextTurn: PropTypes.func.isRequired,
+  startNextMatch: PropTypes.func.isRequired
 }
 
 export default Board;

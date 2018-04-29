@@ -27,6 +27,10 @@ class App extends Component {
               this.props.playerOnePiece ?
               <StatsBar
                 reset={this.props.actions.reset} 
+                P1Score={this.props.P1Score}
+                P1Piece={this.props.playerOnePiece}
+                P2Piece={this.props.playerTwoPiece}
+                P2Score={this.props.P2Score}
               /> : null
           }
         </CSSTransitionGroup>
@@ -88,13 +92,13 @@ class App extends Component {
               pieceTurn={this.props.pieceTurn}
               playerTurn={this.props.playerTurn}
               boardChoices={this.props.boardChoices}
-              playerXChoices={this.props.playerXChoices}
-              playerOChoices={this.props.playerOChoices}
               currentTurn={this.props.currentTurn}
               result={this.props.result}
+              isProcessing={this.props.isProcessing}
               // Actions
               placePiece={this.props.actions.placePiece}
-              setResult={this.props.actions.setResult}
+              processNextTurn={this.props.actions.processNextTurn}
+              startNextMatch={this.props.actions.startNextMatch}
             /> : null
           }
         </CSSTransitionGroup>
@@ -105,21 +109,21 @@ class App extends Component {
 
 App.defaultProps = {
   pieces: ["X","O"],
-  winningCombos: [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
 }
 
 const mapStateToProps = state => {
   return {
     playerMode: state.playerMode,
-    playerOnePiece: state.playerOnePiece,
-    playerTwoPiece: state.playerTwoPiece,
+    playerOnePiece: state.P1Piece,
+    playerTwoPiece: state.P2Piece,
     pieceTurn: state.pieceTurn,
     playerTurn: state.playerTurn,
     boardChoices: state.boardChoices,
-    playerXChoices: state.playerXChoices,
-    playerOChoices: state.playerOChoices,
+    P1Score: state.P1Score,
+    P2Score: state.P2Score,
     currentTurn: state.currentTurn,
-    result: state.result
+    result: state.result,
+    isProcessing: state.isProcessing
   }
 };
 

@@ -6,8 +6,7 @@ const SET_PLAYER_MODE = 'SET_PLAYER_MODE';
 const SET_PLAYER_ONE_PIECE = 'SET_PLAYER_ONE_PIECE';
 const PLACE_PIECE = 'PLACE_PIECE';
 const PROCESS_NEXT_TURN = 'PROCESS_NEXT_TURN';
-const SET_RESULT = 'SET_RESULT';
-const NEXT_MATCH = 'NEXT_MATCH';
+const START_NEXT_MATCH = 'START_NEXT_MATCH';
 const RESET = 'RESET';
 
 // ActionTypes Object
@@ -17,8 +16,7 @@ const GameActionTypes = {
   SET_PLAYER_ONE_PIECE,
   PLACE_PIECE,
   PROCESS_NEXT_TURN,
-  SET_RESULT,
-  NEXT_MATCH,
+  START_NEXT_MATCH,
   RESET
 }
 
@@ -54,16 +52,9 @@ const processNextTurn = () => {
   }
 }
 
-const setResult = winner => {
+const startNextMatch = () => {
   return {
-    type: GameActionTypes.SET_RESULT,
-    winner
-  }
-}
-
-const nextMatch = () => {
-  return {
-    type: GameActionTypes.NEXT_MATCH
+    type: GameActionTypes.START_NEXT_MATCH
   }
 }
 
@@ -80,14 +71,9 @@ const GameActionCreators = {
   setPlayerOnePiece,
   placePiece,
   processNextTurn,
-  setResult,
-  nextMatch,
+  startNextMatch,
   reset,
 }
-
-// ================
-// Initial State and Reducer
-// ================
 
 // Utility Functions
 
@@ -103,22 +89,28 @@ const randomTurn = () => {
 const winningCombos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
 const playerHasWon = (winningCombos, playerArr) => {
+  console.log(`checking if [${playerArr}] has winning combo`);
   for (let i = 0; i < winningCombos.length; i++) {
     let result = 
       winningCombos[i].reduce((bool,winningIndex) => 
         !playerArr.includes(winningIndex) ? false : bool, true);
-    console.log(result);
     if (result) {
+      console.log(`[${playerArr}] has winning combo`);
       return true;
     }
   }
+  console.log(`[${playerArr}] does not having winning combo`);
   return false;
 }
 
+// ================
+// Initial State and Reducer
+// ================
+
 const initialState = {
   playerMode: null,
-  playerOnePiece: null,
-  playerTwoPiece: null,
+  P1Piece: null,
+  P2Piece: null,
   playerTwoisComputer: null,
   pieceTurn: null,
   playerTurn: null,
@@ -129,6 +121,7 @@ const initialState = {
   P2Score: 0,
   currentTurn: 1,
   result: null,
+  isProcessing: false
 };
 
 function GameReducer(state=initialState, action) {
@@ -143,8 +136,8 @@ function GameReducer(state=initialState, action) {
       let randomTurnResult = randomTurn();
       return {
         ...state,
-        playerOnePiece: action.choice[0],
-        playerTwoPiece: action.choice[1],
+        P1Piece: action.choice[0],
+        P2Piece: action.choice[1],
         pieceTurn: randomTurnResult,
         playerTurn: randomTurnResult === action.choice[0] ? "P1" : "P2"
       };
@@ -159,32 +152,56 @@ function GameReducer(state=initialState, action) {
           ],
           playerXChoices: action.piece === "X" ? [...state.playerXChoices, action.index] : state.playerXChoices,
           playerOChoices: action.piece === "O" ? [...state.playerOChoices, action.index] : state.playerOChoices,
-          pieceTurn: state.pieceTurn === "X" ? "O" : "X",
-          playerTurn: state.playerTurn === "P1" ? "P2" : "P1",
-          currentTurn: state.currentTurn + 1
+          isProcessing: true,
         };
       } else {
         return state;
       }
     case GameActionTypes.PROCESS_NEXT_TURN:
-      if (state.currentTurn > 5) {
-      }
-    case GameActionTypes.SET_RESULT:
-      if (action.winner) {
+      if (state.currentTurn >= 5 && playerHasWon(winningCombos,state[`player${state.pieceTurn}Choices`])) {
         return {
           ...state,
-          result: action.winner,
-          [`${action.winner}Score`]: state[`${action.winner}Score`] + 1,
+          result: state.playerTurn,
+          [`${state.playerTurn}Score`]: state[`${state.playerTurn}Score`] + 1,
+          pieceTurn: null,
+          playerTurn: null
+        }
+      } else if (state.currentTurn === 9) {
+        return {
+          ...state,
+          result: "draw",
+          pieceTurn: null,
+          playerTurn: null
         }
       } else {
         return {
           ...state,
-          result: "draw",
+          pieceTurn: state.pieceTurn === "X" ? "O" : "X",
+          playerTurn: state.playerTurn === "P1" ? "P2" : "P1",
+          currentTurn: state.currentTurn + 1,
+          isProcessing: false,
         }
       }
-    case GameActionTypes.NEXT_MATCH:
+    case GameActionTypes.START_NEXT_MATCH:
+      let winnerGoesFirst, winnerPieceGoesFirst;
+      if (state.result === "draw") {
+        let randomTurnResult = randomTurn();
+        winnerGoesFirst = randomTurnResult === state.playerOnePiece ? "P1" : "P2";
+        winnerPieceGoesFirst = randomTurnResult;
+      } else {
+        winnerGoesFirst = state.result;
+        winnerPieceGoesFirst = state[`${state.result}Piece`];
+      }
       return {
-        playerMode: state.playerMode,
+        ...state,
+        result: null,
+        playerXChoices: initialState.playerXChoices,
+        playerOChoices: initialState.playerOChoices,
+        boardChoices: initialState.boardChoices,
+        isProcessing: false,
+        playerTurn: winnerGoesFirst,
+        pieceTurn: winnerPieceGoesFirst,
+        currentTurn: 1
       }
     case GameActionTypes.RESET:
       return initialState;

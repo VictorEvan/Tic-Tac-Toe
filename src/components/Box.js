@@ -13,7 +13,10 @@ const Box = props => (
 )
 
 Box.propTypes = {
-  piece: PropTypes.string.isRequired,
+  piece: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string
+  ]),
   index: PropTypes.number.isRequired,
   placePiece: PropTypes.func.isRequired
 }
