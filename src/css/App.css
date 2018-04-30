@@ -1,4 +1,6 @@
-@import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900");
+/* $font-url--google        : 'http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900';
+$font-family--primary    : 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family--secondary  : 'Helvetica Neue', Helvetica, Arial, sans-serif; */
 .srt {
   border: 0;
   clip: rect(0 0 0 0);
@@ -8,9 +10,6 @@
   padding: 0;
   position: absolute;
   width: 1px; }
-
-[class^="btn--"] {
-  text-align: center; }
 
 .centered {
   float: none;
@@ -317,7 +316,8 @@ template {
 
 * {
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font-family: 'Exo'; }
 
 button {
   border: none;
@@ -341,8 +341,7 @@ ul {
   text-align: center;
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: white; }
+  align-items: center; }
   .game--type p, .game--XorO p {
     max-width: 65%;
     font-size: 1.5rem; }
@@ -351,10 +350,9 @@ ul {
     .game--type .container--buttons button, .game--XorO .container--buttons button {
       width: 40%;
       margin: 0 5%;
-      font-size: 1.5rem;
-      color: rgba(255, 255, 255, 0.5); }
+      font-size: 1.5rem; }
 
-.game--type, .game--XorO, .game--board, .game--message {
+.game--type, .game--XorO, .game--board, .game--message, .game--message--P1, .game--message--P2 {
   position: absolute;
   top: 0;
   left: 0;
@@ -421,21 +419,28 @@ ul {
     font-size: 1.25rem; }
 .game--XorO {
   flex-direction: column; }
+  .game--XorO h2 {
+    font-size: 2em;
+    margin: 0.67em 0; }
   .game--XorO .container--buttons {
     display: flex;
     justify-content: center; }
     .game--XorO .container--buttons button {
       width: 25%;
       margin: 0; }
+  .game--XorO .back-button {
+    position: absolute;
+    left: 5%;
+    bottom: 5%; }
 .game--board {
   display: flex;
   justify-content: center;
   align-items: center; }
-.game--message {
+.game--message, .game--message--P1, .game--message--P2 {
   display: flex;
   justify-content: center;
   align-items: center; }
-  .game--message p {
+  .game--message p, .game--message--P1 p, .game--message--P2 p {
     font-size: 1.5rem; }
 
 .container--boxes {
@@ -452,46 +457,8 @@ ul {
     width: 100%;
     height: 100%; }
 
-[class^="btn--"] {
-  padding: 15px 30px;
-  border: 0;
-  border-radius: 0.4em;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 0.875em;
-  font-weight: 400;
-  transition: opacity 0.3s;
-  display: block; }
-  [class^="btn--"]:hover {
-    opacity: .75; }
-  [class^="btn--"]:active {
-    opacity: initial; }
-
-.btn--default {
-  background-color: #52bab3; }
-.btn--success {
-  background-color: #5ece7f; }
-.btn--error {
-  background-color: #e67478; }
-.btn--warning {
-  background-color: #ff784f; }
-.btn--info {
-  background-color: #9279c3; }
-
-[class^="btn--"] {
-  margin-bottom: 1.4285714286em; }
-  @media (min-width: 1px) and (max-width: 768px) {
-    [class^="btn--"] {
-      width: 100%; } }
-  @media (min-width: 769px) {
-    [class^="btn--"] {
-      width: auto;
-      display: inline-block; }
-      [class^="btn--"] + [class^="btn--"] {
-        margin-left: 20px; } }
-
 .container--outer {
-  background: #437399;
+  background-color: #F0F0F0;
   border-radius: 10px; }
 
 .player-one-turn {
@@ -502,18 +469,24 @@ ul {
   background: #e67478;
   color: white; }
 
-.game--message {
-  background: rgba(0, 0, 0, 0.75); }
+.game--message, .game--message--P1, .game--message--P2 {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  font-weight: 700; }
+
+.game--message--P1 {
+  background: rgba(57, 173, 209, 0.75); }
+.game--message--P2 {
+  background: rgba(230, 116, 120, 0.75); }
 
 .container--inner {
-  background: green;
-  color: white; }
+  background: white; }
 
 .container--boxes {
   background: gray; }
   .container--boxes .box {
-    background: green;
-    font-size: 2.5rem; }
+    font-size: 2.5rem;
+    background: white; }
 
 /* ================================= 
 		ReactCSSTransitionGroup Classes

@@ -26,6 +26,7 @@ class App extends Component {
           {
               this.props.playerOnePiece ?
               <StatsBar
+                playerMode={this.props.playerMode}
                 reset={this.props.actions.reset} 
                 P1Score={this.props.P1Score}
                 P1Piece={this.props.playerOnePiece}
@@ -87,6 +88,7 @@ class App extends Component {
             this.props.playerOnePiece ?
             <Board 
               // Passed State
+              playerMode={this.props.playerMode}
               playerOnePiece={this.props.playerOnePiece}
               playerTwoPiece={this.props.playerTwoPiece}
               pieceTurn={this.props.pieceTurn}
@@ -97,6 +99,7 @@ class App extends Component {
               isProcessing={this.props.isProcessing}
               // Actions
               placePiece={this.props.actions.placePiece}
+              placeAIPiece={this.props.actions.placeAIPiece}
               processNextTurn={this.props.actions.processNextTurn}
               startNextMatch={this.props.actions.startNextMatch}
             /> : null
@@ -123,7 +126,7 @@ const mapStateToProps = state => {
     P2Score: state.P2Score,
     currentTurn: state.currentTurn,
     result: state.result,
-    isProcessing: state.isProcessing
+    isProcessing: state.readyForProcessing
   }
 };
 

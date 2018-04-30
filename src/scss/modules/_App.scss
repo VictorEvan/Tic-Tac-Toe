@@ -1,0 +1,46 @@
+.container--outer {
+  background-color: $color-primary;
+  border-radius: 10px;
+}
+
+.player-one-turn {
+  background: $player-one-color;
+  color: white;
+}
+
+.player-two-turn {
+  background: $player-two-color;
+  color: white;
+}
+
+%game--message-default {
+  background: rgba(0,0,0,0.75);
+  color: white;
+  font-weight: 700;
+}
+
+.game--message {
+  @extend %game--message-default;
+  &--P1 {
+    @extend .game--message;
+    @extend %game--message-default;
+    background: rgba(57,173,209,0.75);
+  }
+  &--P2 {
+    @extend .game--message;
+    @extend %game--message-default;
+    background: rgba(230,116,120,0.75)
+  }
+}
+
+.container--inner {
+  background: white;
+}
+
+.container--boxes {
+  background: gray;
+  .box {
+    font-size: 2.5rem;
+    background: white;
+  }
+}

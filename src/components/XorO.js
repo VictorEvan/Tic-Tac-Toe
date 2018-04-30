@@ -5,12 +5,12 @@ const XorO = props => {
   if (props.playerMode) {
     return (
       <div className="game--XorO">
-        <p>
+        <h2>
           { props.playerMode === "one" ?
-            `Would you like X or O?` :
-            `Player 1: Would you like X or O?`
+            `Choose` :
+            `Player 1: Choose`
           }
-        </p>
+        </h2>
         <div className="container--buttons">
           <button
             onClick={() => props.choosePiece(["X","O"])}

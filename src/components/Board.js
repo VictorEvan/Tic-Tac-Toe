@@ -8,13 +8,20 @@ import Box from './Box';
 class Board extends Component {
 
   componentDidUpdate = () => {
+    console.log('Board updated');
+    // handle starting next turn
     if (this.props.result === null && this.props.isProcessing === true) {
       console.log('process next turn');
       this.props.processNextTurn();
-    }
-    if (this.props.result) {
+    } else
+    // handle match end
+    if (this.props.result !== null) {
       console.log('start next match in 3 seconds');
       setTimeout(() => this.props.startNextMatch(),3000);
+    } else
+    // handle AI Move
+    if (this.props.playerMode === 'one' && this.props.playerTurn === 'P2') {
+      setTimeout(() => this.props.placeAIPiece(),1000);
     }
   }
 
@@ -32,6 +39,7 @@ class Board extends Component {
             this.props.result ?
             <Message 
               result={this.props.result}
+              playerMode={this.props.playerMode}
             /> : null
           }
         </CSSTransitionGroup>
@@ -52,6 +60,7 @@ class Board extends Component {
 }
 
 Board.propTypes = {
+  playerMode: PropTypes.string.isRequired,
   playerOnePiece: PropTypes.string.isRequired,
   playerTwoPiece: PropTypes.string.isRequired,
   boardChoices: PropTypes.array.isRequired,
@@ -68,6 +77,7 @@ Board.propTypes = {
   ]),
   // actions
   placePiece: PropTypes.func.isRequired,
+  placeAIPiece: PropTypes.func.isRequired,
   processNextTurn: PropTypes.func.isRequired,
   startNextMatch: PropTypes.func.isRequired
 }

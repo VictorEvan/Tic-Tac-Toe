@@ -8,7 +8,9 @@ const Box = props => (
       props.placePiece(props.index,props.piece);
     }}
   >
-    {props.boardChoices[props.index]}
+    { typeof props.boardChoices[props.index] !== 'number' ?
+      props.boardChoices[props.index] : null
+      }
   </li>
 )
 

@@ -80,6 +80,10 @@
     @extend %full;
     @extend %game-default;
     flex-direction: column;
+    h2 {
+      font-size: 2em;
+      margin: 0.67em 0;
+    }
     .container--buttons {
       display: flex;
       justify-content: center;
@@ -87,6 +91,11 @@
         width: 25%;
         margin: 0;
       }
+    }
+    .back-button {
+      position: absolute;
+      left: 5%;
+      bottom: 5%;
     }
   }
   &--board {

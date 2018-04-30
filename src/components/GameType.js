@@ -5,7 +5,7 @@ const GameType = props => {
   if (props.playerMode === null) {
     return (
       <div className="game--type">
-        <p>How do you want to play?</p>
+        <h1>Tic Tac Toe</h1>
         <div className="container--buttons">
           <button
             onClick={() => props.chooseMode("one")}
