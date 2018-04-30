@@ -43,7 +43,11 @@ class Board extends Component {
             /> : null
           }
         </CSSTransitionGroup>
-        <ul className="container--boxes">
+        <ul className={
+          this.props.playerTurn === "P1" ?
+          "container--boxes--P1" : "container--boxes--P2"
+        }
+        >
           {this.props.boardChoices.map((box, i) => (
             <Box
               key={i}

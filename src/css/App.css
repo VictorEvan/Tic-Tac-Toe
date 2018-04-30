@@ -368,7 +368,8 @@ ul {
 
 .container--outer {
   position: relative;
-  max-width: 340px; }
+  min-width: 300px;
+  max-width: 400px; }
   @media screen and (orientation: portrait) {
     .container--outer {
       width: 90%; } }
@@ -383,17 +384,11 @@ ul {
 .player-one-turn,
 .player-two-turn {
   position: absolute;
-  top: -10%;
-  z-index: -10; }
+  bottom: 0;
+  left: 31%; }
   .player-one-turn p,
   .player-two-turn p {
     margin: .50em .50em; }
-
-.player-one-turn {
-  left: 15%; }
-
-.player-two-turn {
-  right: 15%; }
 
 .bar__player-one, .bar__player-two, .bar__reset-button {
   position: absolute;
@@ -443,14 +438,14 @@ ul {
   .game--message p, .game--message--P1 p, .game--message--P2 p {
     font-size: 1.5rem; }
 
-.container--boxes {
+.container--boxes, .container--boxes--P1, .container--boxes--P2 {
   width: 90%;
   height: 90%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-gap: 2px; }
-  .container--boxes .box {
+  .container--boxes .box, .container--boxes--P1 .box, .container--boxes--P2 .box {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -460,14 +455,6 @@ ul {
 .container--outer {
   background-color: #F0F0F0;
   border-radius: 10px; }
-
-.player-one-turn {
-  background: #39add1;
-  color: white; }
-
-.player-two-turn {
-  background: #e67478;
-  color: white; }
 
 .game--message, .game--message--P1, .game--message--P2 {
   background: rgba(0, 0, 0, 0.75);
@@ -482,11 +469,17 @@ ul {
 .container--inner {
   background: white; }
 
-.container--boxes {
+.container--boxes, .container--boxes--P1, .container--boxes--P2 {
   background: gray; }
-  .container--boxes .box {
+  .container--boxes .box, .container--boxes--P1 .box, .container--boxes--P2 .box {
     font-size: 2.5rem;
     background: white; }
+
+.container--boxes--P1 {
+  background: #39add1; }
+
+.container--boxes--P2 {
+  background: #e67478; }
 
 /* ================================= 
 		ReactCSSTransitionGroup Classes
@@ -516,30 +509,5 @@ ul {
 .fade-appear.fade-appear-active {
   opacity: 1;
   transition: opacity .5s ease-in; }
-
-.slide-enter {
-  top: 0; }
-
-/* end enter state */
-.slide-enter.slide-enter-active {
-  top: -10%;
-  transition: top .5s ease-in; }
-
-/* start leave state */
-.slide-leave {
-  top: -10%; }
-
-/* end leave state */
-.slide-leave.slide-leave-active {
-  top: 0;
-  transition: top .5s ease-in; }
-
-/* initial mounting */
-.slide-appear {
-  top: 0; }
-
-.slide-appear.slide-appear-active {
-  top: -10%;
-  transition: top .5s ease-in; }
 
 /*# sourceMappingURL=App.css.map */

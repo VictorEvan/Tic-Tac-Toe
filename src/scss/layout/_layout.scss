@@ -8,7 +8,8 @@
 
 .container--outer {
   position: relative;
-  max-width: 340px;
+  min-width: 300px;
+  max-width: 400px;
   @media screen and (orientation: portrait) {
     width: 90%;
   }
@@ -25,19 +26,11 @@
 .player-one-turn,
 .player-two-turn {
   position: absolute;
-  top: -10%;
-  z-index: -10;
+  bottom: 0;
+  left: 31%;
   p {
     margin: .50em .50em;
-  }
-}
-
-.player-one-turn {
-  left: 15%;
-}
-
-.player-two-turn {
-  right: 15%;
+  } 
 }
 
 .bar {

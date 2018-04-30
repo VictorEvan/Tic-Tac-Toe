@@ -3,16 +3,6 @@
   border-radius: 10px;
 }
 
-.player-one-turn {
-  background: $player-one-color;
-  color: white;
-}
-
-.player-two-turn {
-  background: $player-two-color;
-  color: white;
-}
-
 %game--message-default {
   background: rgba(0,0,0,0.75);
   color: white;
@@ -43,4 +33,14 @@
     font-size: 2.5rem;
     background: white;
   }
+}
+
+.container--boxes--P1 {
+  @extend .container--boxes;
+  background: $player-one-color;
+}
+
+.container--boxes--P2 {
+  @extend .container--boxes;
+  background: $player-two-color;
 }

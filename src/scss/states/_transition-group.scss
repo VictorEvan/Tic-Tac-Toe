@@ -37,39 +37,3 @@
 	opacity: 1;
 	transition: opacity .5s ease-in;
 }
-
-//=======================================
-
-.slide-enter {
-	top: 0;
-}
-
-/* end enter state */
-
-.slide-enter.slide-enter-active {
-  top: -10%;
-  transition: top .5s ease-in;
-}
-
-/* start leave state */
-
-.slide-leave {
-  top: -10%;
-}
-
-/* end leave state */
-
-.slide-leave.slide-leave-active {
-	top: 0;
-	transition: top .5s ease-in;
-}
-
-/* initial mounting */
-.slide-appear {
-  top: 0;
-}
-
-.slide-appear.slide-appear-active {
-	top: -10%;
-	transition: top .5s ease-in;
-}

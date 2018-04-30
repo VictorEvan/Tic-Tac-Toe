@@ -152,7 +152,8 @@ const initialState = {
   P2Score: 0,
   currentTurn: 1,
   result: null,
-  readyForProcessing: false
+  readyForProcessing: false,
+  whoGoesFirst: null,
 };
 
 function GameReducer(state=initialState, action) {
@@ -170,7 +171,8 @@ function GameReducer(state=initialState, action) {
         P1Piece: action.choice[0],
         P2Piece: action.choice[1],
         pieceTurn: randomTurnResult,
-        playerTurn: randomTurnResult === action.choice[0] ? "P1" : "P2"
+        playerTurn: randomTurnResult === action.choice[0] ? "P1" : "P2",
+        whoGoesFirst: randomTurnResult === action.choice[0] ? "P1" : "P2"
       };
     case GameActionTypes.PLACE_PIECE:
       // one player - P1 cannot control P2
@@ -292,10 +294,8 @@ function GameReducer(state=initialState, action) {
     case GameActionTypes.START_NEXT_MATCH:
       let winnerGoesFirst, winnerPieceGoesFirst;
       if (state.result === "draw") {
-        console.log();
-        let randomTurnResult = randomTurn();
-        winnerGoesFirst = randomTurnResult === state.P1Piece ? "P1" : "P2";
-        winnerPieceGoesFirst = randomTurnResult;
+        winnerGoesFirst = state.whoGoesFirst === 'P1' ? 'P2' : 'P1';
+        winnerPieceGoesFirst = state.whoGoesFirst === 'P1' ? state.P2Piece : state.P1Piece;
       } else {
         winnerGoesFirst = state.result;
         winnerPieceGoesFirst = state[`${state.result}Piece`];
@@ -309,7 +309,8 @@ function GameReducer(state=initialState, action) {
         readyForProcessing: false,
         playerTurn: winnerGoesFirst,
         pieceTurn: winnerPieceGoesFirst,
-        currentTurn: 1
+        currentTurn: 1,
+        whoGoesFirst: winnerGoesFirst
       }
     case GameActionTypes.RESET:
       return initialState;

@@ -36,7 +36,7 @@ class App extends Component {
           }
         </CSSTransitionGroup>
         <CSSTransitionGroup
-          transitionName="slide"
+          transitionName="fade"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
           transitionAppear={true}
