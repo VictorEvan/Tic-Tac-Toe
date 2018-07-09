@@ -55,6 +55,10 @@ class Board extends Component {
               piece={this.props.pieceTurn}
               index={i}
               placePiece={this.props.placePiece}
+              playerTurn={this.props.playerTurn}
+              isProcessing={this.props.isProcessing}
+              playerXChoices={this.props.playerXChoices}
+              playerOChoices={this.props.playerOChoices}
             />
           ))}
         </ul>
@@ -79,6 +83,8 @@ Board.propTypes = {
     PropTypes.object,
     PropTypes.string
   ]),
+  playerXChoices: PropTypes.array.isRequired,
+  playerOChoices: PropTypes.array.isRequired,
   // actions
   placePiece: PropTypes.func.isRequired,
   placeAIPiece: PropTypes.func.isRequired,

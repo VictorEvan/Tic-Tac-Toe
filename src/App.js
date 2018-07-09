@@ -97,6 +97,8 @@ class App extends Component {
               currentTurn={this.props.currentTurn}
               result={this.props.result}
               isProcessing={this.props.isProcessing}
+              playerXChoices={this.props.playerXChoices}
+              playerOChoices={this.props.playerOChoices}
               // Actions
               placePiece={this.props.actions.placePiece}
               placeAIPiece={this.props.actions.placeAIPiece}
@@ -126,7 +128,9 @@ const mapStateToProps = state => {
     P2Score: state.P2Score,
     currentTurn: state.currentTurn,
     result: state.result,
-    isProcessing: state.readyForProcessing
+    isProcessing: state.readyForProcessing,
+    playerXChoices: state.playerXChoices,
+    playerOChoices: state.playerOChoices
   }
 };
 
