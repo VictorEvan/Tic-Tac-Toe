@@ -16,7 +16,9 @@ const Box = props => (
     onClick={() => {
       if (checker(props.playerXChoices, props.playerOChoices, props.index)) {
         console.log(`This piece (${props.index}) is already taken!`);
-      } else if (props.playerTurn === "P1" && !props.isProcessing) props.placePiece(props.index,props.piece);
+      } else if (props.playerMode === "two" || (props.playerTurn === "P1" && !props.isProcessing)) {
+        props.placePiece(props.index,props.piece);
+      }
     }}
   >
     { typeof props.boardChoices[props.index] !== 'number' ?
@@ -33,6 +35,7 @@ Box.propTypes = {
   index: PropTypes.number.isRequired,
   placePiece: PropTypes.func.isRequired,
   isProcessing: PropTypes.bool.isRequired,
+  playerMode: PropTypes.string.isRequired,
   playerTurn: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string

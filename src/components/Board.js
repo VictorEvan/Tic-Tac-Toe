@@ -55,6 +55,7 @@ class Board extends Component {
               piece={this.props.pieceTurn}
               index={i}
               placePiece={this.props.placePiece}
+              playerMode={this.props.playerMode}
               playerTurn={this.props.playerTurn}
               isProcessing={this.props.isProcessing}
               playerXChoices={this.props.playerXChoices}
